@@ -10,6 +10,5 @@ Estos son mis ejercicios para obtener el certificado del curso en línea de full
     - unicafe
     - anecdotes
 - part2
-    - courseinfo
     - phonebook
     - countries
