@@ -4,12 +4,15 @@ const Tittle = ({ text }) => <h1>{text}</h1>
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
-const Display = ({ good, neutral, bad }) => {
+const Display = ({ good, neutral, bad, all, average, positive }) => {
   return (
     <p>
       Good {good} <br />
       Neutral {neutral} <br />
-      Bad {bad}
+      Bad {bad} <br />
+      All {all} <br />
+      Average {average} <br />
+      Positive {positive} %
     </p>
   )
 }
@@ -20,6 +23,8 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+  const all = good + neutral + bad
+
   return (
     <div>
       <Tittle text={'Give feedback'} />
@@ -27,7 +32,14 @@ const App = () => {
       <Button onClick={() => setNeutral(neutral + 1)} text={'Neutral'} />
       <Button onClick={() => setBad(bad + 1)} text={'Bad'} />
       <Tittle text={'Statistics'} />
-      <Display good={good} neutral={neutral} bad={bad} />
+      <Display 
+        good={good}
+        neutral={neutral} 
+        bad={bad} 
+        all={all} 
+        average={(good - bad) / all} 
+        positive={(good * 100) / all} 
+      />
     </div>
   )
 }
