@@ -5,16 +5,20 @@ const Tittle = ({ text }) => <h1>{text}</h1>
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
 const Statistics = ({ good, neutral, bad, all, average, positive }) => {
-  return (
-    <p>
-      Good {good} <br />
-      Neutral {neutral} <br />
-      Bad {bad} <br />
-      All {all} <br />
-      Average {average} <br />
-      Positive {positive} %
-    </p>
-  )
+  if (all == 0) {
+    return <p>No feedback given</p> 
+  } else {
+    return (
+      <p>
+        Good {good} <br />
+        Neutral {neutral} <br />
+        Bad {bad} <br />
+        All {all} <br />
+        Average {average} <br />
+        Positive {positive} %
+      </p>
+    )
+  }
 }
 
 const App = () => {
