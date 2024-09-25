@@ -4,21 +4,27 @@ const Tittle = ({ text }) => <h1>{text}</h1>
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
-const StatisticLine = ({ text, value }) => <p>{text} {value}</p>
+const StatisticLine = ({ text, value }) =>  
+<tr>
+  <td>{text}</td>
+  <td>{value}</td>
+</tr>
 
 const Statistics = ({ good, neutral, bad, all, average, positive }) => {
   if (all == 0) {
     return <p>No feedback given</p> 
   } else {
     return (
-      <div>
-        <StatisticLine text='Good'value={good} />
+      <table>
+        <tbody>
+          <StatisticLine text='Good'value={good} />
         <StatisticLine text='Neutral'value={neutral} />
         <StatisticLine text='Bad'value={bad} />
         <StatisticLine text='All'value={all} />
         <StatisticLine text='Average'value={average} />
         <StatisticLine text='Positive'value={positive + " %"} />
-      </div>
+        </tbody>
+      </table>
     )
   }
 }
