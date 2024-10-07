@@ -32,11 +32,11 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
     } else {
       personService
-      .create(nameObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-        setNewName('') 
-        setNewNumber('')
+        .create(nameObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('') 
+          setNewNumber('')
       })
     }
   }
@@ -56,6 +56,20 @@ const App = () => {
     setShowAll(false)
   }
 
+  const handleDeleteName = (id, name) => {
+    if(window.confirm(`Delete ${name}?`)) {
+      personService
+        .deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          alert(`${name} was already deleted from server`)
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -71,7 +85,7 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Persons personToShow={personToShow}/>
+      <Persons personToShow={personToShow} handleDeleteName={handleDeleteName}/>
     </div>
   )
 }
