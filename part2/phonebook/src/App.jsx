@@ -3,6 +3,7 @@ import personService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
   const [showAll, setShowAll] = useState(true)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -42,6 +44,10 @@ const App = () => {
             setPersons(persons.map(person => person.id !== idPerson ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
+            setErrorMessage(`Number changed for ${returnedPerson.name}`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
         })
       }
     } else {
@@ -51,6 +57,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('') 
           setNewNumber('')
+          setErrorMessage(`Added ${returnedPerson.name}`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
       })
     }
   }
@@ -87,6 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter value={search} onChange={handleSearchChange} />
 
       <h3>add a new</h3>
