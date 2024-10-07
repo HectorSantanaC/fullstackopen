@@ -26,10 +26,24 @@ const App = () => {
       number: newNumber,
     }
 
-    const isPersonInPhonebook = persons.some((person) => person.name === newName)
+    const isPersonInPhonebook = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase())
+    const isNumberInPerson = persons.some((person) => person.number === newNumber)
 
-    if (isPersonInPhonebook) {
+    if (isPersonInPhonebook && isNumberInPerson) {
       alert(`${newName} is already added to phonebook`);
+    } else if (isPersonInPhonebook && !isNumberInPerson) {
+      if(window.confirm(`${isPersonInPhonebook.name} is already added to phonebook, replace the old number with a new one?`)) {
+        const changedPerson = {...isPersonInPhonebook, number: newNumber}
+        const idPerson = isPersonInPhonebook.id
+
+        personService
+          .update(idPerson, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== idPerson ? person : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+        })
+      }
     } else {
       personService
         .create(nameObject)
