@@ -11,7 +11,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
   const [showAll, setShowAll] = useState(true)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [classNameNotification, setClassNameNotification] = useState('')
 
   useEffect(() => {
     personService
@@ -44,11 +45,22 @@ const App = () => {
             setPersons(persons.map(person => person.id !== idPerson ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
-            setErrorMessage(`Number changed for ${returnedPerson.name}`)
+            setNotificationMessage(`Number changed for ${returnedPerson.name}`)
+            setClassNameNotification('succes')
             setTimeout(() => {
-              setErrorMessage(null)
+              setNotificationMessage(null)
+              setClassNameNotification('')
             }, 5000)
-        })
+          })
+          .catch(error => {
+            setNotificationMessage(`Information of ${isPersonInPhonebook.name} has already been removed from server`)
+            setClassNameNotification('error')
+            setTimeout(() =>{
+              setNotificationMessage(null)
+              setClassNameNotification('')
+            }, 5000)
+            setPersons(persons.filter(person => person.id !== isPersonInPhonebook.id))
+          })
       }
     } else {
       personService
@@ -57,9 +69,11 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('') 
           setNewNumber('')
-          setErrorMessage(`Added ${returnedPerson.name}`)
+          setNotificationMessage(`Added ${returnedPerson.name}`)
+          setClassNameNotification('succes')
           setTimeout(() => {
-            setErrorMessage(null)
+            setNotificationMessage(null)
+            setClassNameNotification('')
           }, 5000)
       })
     }
@@ -97,7 +111,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={notificationMessage} className={classNameNotification} />
       <Filter value={search} onChange={handleSearchChange} />
 
       <h3>add a new</h3>
