@@ -1,7 +1,15 @@
-const CountriesList = ({ countries }) => 
+const CountriesList = ({ countries, handleShowCountry }) => 
   <ul>
     {countries.map(country => (
-      <li key={country.cca3}>{country.name.common}</li>
+      <div>
+        <li key={country.cca3}>
+          {country.name.common} 
+          <button onClick={() => handleShowCountry(country.cca3)}>
+            show
+          </button>
+        </li>
+      </div>
+      
     ))}
   </ul>
 

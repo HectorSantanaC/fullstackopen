@@ -53,6 +53,9 @@ const App = () => {
         countries={countries} 
         information={information} 
         notification={notification} 
+        setCountries={setCountries}
+        setInformation={setInformation}
+        setNotification={setNotification}
       />
     </>
   )
